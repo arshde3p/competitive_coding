@@ -1,0 +1,16 @@
+d=list(input().split(" "))
+n = int(d[0])
+ 
+k = int(d[1])
+ 
+l=list(input().split(" "))
+ 
+    
+m=(n-k+1)//2
+mx=0
+for i in range(m-1,m+k):
+    if(int(l[i])>mx):
+        mx=int(l[i])
+ 
+ 
+print(mx)
