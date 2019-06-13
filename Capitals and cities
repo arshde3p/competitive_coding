@@ -1,0 +1,82 @@
+#include<bits/stdc++.h>
+using namespace std;
+ 
+#define ll long long int
+ 
+#define pii pair<int,int>
+#define pll pair<ll,ll>
+#define mp make_pair
+#define pb push_back
+#define fi first
+#define se second
+#define _cin ios_base::sync_with_stdio(0)
+#define all(x) (x).begin(), (x).end()
+ 
+#define INF 2147483647
+#define MAXN 300004
+#define ALPHA 26
+ 
+ll mod = 1000000007;
+ 
+pll a[MAXN];
+ 
+int main()
+{
+    _cin;
+    ll n, k;
+    cin >> n >> k;
+    for(int i=0; i<n; i++) {
+        cin >> a[i].fi; 
+        a[i].se = i;
+    }
+    sort(a, a+n);
+    ll i1 = n / 2, i2 = (n - 1) / 2;
+    if(n == 1){
+        cout << 1 << " " << 0 << endl;
+    }
+    else{
+        ll tmp2, diff, ans = 0, tmp, lft = 0, idx, rgt = n-1, curr = 0;
+        for(int i=1; i<n; i++){
+            curr += a[i].fi - a[0].fi;
+        }
+        // lft++;
+        // rgt--;
+        if(curr >= k) tmp2 = curr - k;
+        else{
+            diff = curr - k;
+            if(diff % 2 == 0) tmp2 = 0;
+            else tmp2 = 1;
+        }
+        ans = tmp2;
+        idx = a[0].se;
+       // cout << curr << endl;
+        for(int i=1; i<n; i++){
+            tmp = curr;
+            tmp = tmp - rgt * (a[i].fi - a[i-1].fi);
+            tmp = tmp + (lft + 1) * (a[i].fi - a[i-1].fi);
+            //cout << curr << " " << lft << " " << rgt << " " << tmp << endl; // 1 2 3 4 5 : 10 - 4 = 6
+            rgt--;
+            lft++;
+            diff = tmp - k;
+            if(diff >= 0){
+                tmp2 = diff;
+            }
+            else if(diff < 0){
+                tmp2 = abs(diff % 2);
+            }
+            //cout << tmp2 << " " << a[i].se << endl;
+            if(tmp2 < ans){
+                ans = tmp2;
+                idx = a[i].se;
+            }
+            else if(tmp2 == ans){
+                if(a[i].se < idx){
+                    idx = a[i].se;
+                }
+            }
+            curr = tmp;
+        }
+        cout << idx + 1 << " " << ans << endl;
+    }
+    return 0;
+}
